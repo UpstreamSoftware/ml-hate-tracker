@@ -38,7 +38,7 @@ def main():
                 replies.append(re.sub(exp, "", BeautifulSoup(reply["com"], "html.parser").get_text()))
 
     for phrase in replies:
-        phraselist = open("phraselist_newline.txt", "a")
+        phraselist = open("wordlists/list.txt", "a")
         try:
             phraselist.write("{}\n".format(phrase.rstrip("\n")))
         except UnicodeEncodeError:
