@@ -9,20 +9,23 @@ def main():
 
     line_num = 0
 
+    if len(sys.argv) == 3:
+        phrasefile.seek(sys.argv[2])
+
     for phrase in phrasefile:
-        print(str(line_num) + "| " + phrase + "(y/n) or q to quit: ", end="")
-        selection = input()
+        print("{} -- {}| {}(y/n) or q to quit: ".format(str(line_num), phrasefile.tell(), phrase) , end="")
+        selection = input().lower()
         while(selection not in "ynq"):
             selection = input()
-        if selection.lower() == "y":
+        if selection == "y":
             phraselist.append(tuple((phrase, 1)))
-        elif selection.lower() == "n":
+        elif selection == "n" or selection == "":
             phraselist.append(tuple((phrase, 0)))
-        elif selection.lower() == "q":
+        elif selection == "q":
             break
         line_num += 1
 
-    listdump = open("listdump.pkl", "wb")
+    listdump = open("listdumps/alec_listdump.pkl", "wb")
     pickle.dump(phraselist, listdump)
     listdump.close()
     print("all done :)")
