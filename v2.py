@@ -14,36 +14,37 @@ def main():
     board = "pol"
 
     r = requests.get("https://a.4cdn.org/{}/catalog.json".format(board))
-    # for every thread on page 1, sort by bumps
-    threads_dict = r.json()[0]["threads"] # page 1
+    replies = []  # weighed less?
 
-    op_posts = [] # weighed more?
-    replies = [] # weighed less?
+    for i in range(len(r.json()) - 1):
+        # for every thread on page 1, sort by bumps
+        threads_dict = r.json()[i]["threads"] # page 1
 
-    count = 0
+        # op_posts = [] # weighed more?
+        count = 0
 
-    for thread in threads_dict:
-        # stip html from here?
+        for thread in threads_dict:
+            # stip html from here?
 
-        # view every reply in thread and create dictionary of most common words
-        op_id = thread["no"]
-        r = requests.get("https://a.4cdn.org/{}/thread/{}.json".format(board, op_id))
-        reply_dict = r.json()["posts"]
+            # view every reply in thread and create dictionary of most common words
+            op_id = thread["no"]
+            r = requests.get("https://a.4cdn.org/{}/thread/{}.json".format(board, op_id))
+            reply_dict = r.json()["posts"]
 
-        for reply in reply_dict:
-            if "sub" in reply:
-                replies.append(reply["sub"])
-            elif "com" in reply:
-                # strip html from com
-                replies.append(re.sub(exp, "", BeautifulSoup(reply["com"], "html.parser").get_text()))
+            for reply in reply_dict:
+                if "sub" in reply:
+                    replies.append(reply["sub"])
+                elif "com" in reply:
+                    # strip html from com
+                    replies.append(re.sub(exp, "", BeautifulSoup(reply["com"], "html.parser").get_text()))
 
-    for phrase in replies:
-        phraselist = open("wordlists/list.txt", "a")
-        try:
-            phraselist.write("{}\n".format(phrase.rstrip("\n")))
-        except UnicodeEncodeError:
-            pass
-        phraselist.close()
+        for phrase in replies:
+            phraselist = open("wordlists/biglist.txt", "a")
+            try:
+                phraselist.write("{}\n".format(phrase.rstrip("\n")))
+            except UnicodeEncodeError:
+                pass
+            phraselist.close()
 
 
 if __name__ == "__main__":

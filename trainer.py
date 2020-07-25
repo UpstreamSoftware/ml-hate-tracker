@@ -25,7 +25,7 @@ def main():
             break
         line_num += 1
 
-    listdump = open("listdumps/alec_listdump.pkl", "wb")
+    listdump = open("listdumps/alec_listdump_use_for_testing.pkl", "wb")
     pickle.dump(phraselist, listdump)
     listdump.close()
     print("all done :)")
