@@ -1,0 +1,16 @@
+```bash
+#!/bin/bash
+# $1 is the branch you're working on
+git init
+git remote add origin https://github.com/ML-Hate-Tracker/ml-hate-tracker/ master
+git add -A
+git commit -m "inital commit"
+git branch --set-upstream-to=origin/$1 $1
+git checkout $1
+git pull origin $1 --allow-unrelated-histories
+git push -u origin $1
+```
+copy into file called git_commands.sh in your project dir
+run ``chmod +x git_commands.sh``
+then ``./git_commands.sh <your branch name here>``
+so ml for jack, data for me and frontend for anagh
