@@ -9,5 +9,10 @@ pkldump.close()
 train = []
 
 for phrase in phraselist:
-    train.append([phrase])
+    train.append(phrase)
 
+cl = NaiveBayesClassifier(train)
+
+print(cl.classify("i don't fucking hate faggot niggers"))
+
+cl.show_informative_features(5)
